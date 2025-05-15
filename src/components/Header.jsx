@@ -10,7 +10,7 @@ const { isAuthenticated, user } = useSelector((state) => state.auth);
 
 const handleLogout = () => {
 dispatch(logoutUser());
-navigate('/shipper/login');
+navigate('/');
 };
 
 return (

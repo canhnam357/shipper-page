@@ -13,7 +13,6 @@ function App() {
         <Header />
         <div className="main-content">
           <Routes>
-            <Route path="/shipper/login" element={<Login />} />
             <Route path="/shipper/orders" element={<OrderList />} />
             <Route path="/" element={<Login />} />
           </Routes>
