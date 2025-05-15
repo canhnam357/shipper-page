@@ -12,6 +12,7 @@ export const loginUser = createAsyncThunk(
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('username', username); // Lưu username vào localStorage
+        toast.dismiss();
         toast.success('Đăng nhập thành công!');
         return { username };
       }
@@ -20,10 +21,13 @@ export const loginUser = createAsyncThunk(
       const message = error.response?.data?.message || 'Đăng nhập thất bại!';
       const statusCode = error.response?.data?.statusCode;
       if (statusCode === 404) {
+        toast.dismiss();
         toast.error('Email không tồn tại!');
       } else if (statusCode === 403) {
+        toast.dismiss();
         toast.error('Bạn không có quyền truy cập! Chỉ ADMIN hoặc EMPLOYEE mới được phép đăng nhập.');
       } else {
+        toast.dismiss();
         toast.error(message);
       }
       return rejectWithValue(message);
@@ -41,12 +45,14 @@ export const logoutUser = createAsyncThunk(
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('username'); // Xóa username khi đăng xuất
+        toast.dismiss();
         toast.success('Đăng xuất thành công!');
         return true;
       }
       return rejectWithValue('Đăng xuất thất bại!');
     } catch (error) {
       const message = error.response?.data?.message || 'Đăng xuất thất bại!';
+      toast.dismiss();
       toast.error(message);
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');

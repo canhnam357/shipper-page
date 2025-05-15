@@ -92,7 +92,10 @@ const OrderList = () => {
     }
     try {
       await dispatch(updateOrderStatus({ orderId, fromStatus, toStatus })).unwrap();
+      toast.dismiss();
+      toast.success(`Chuyển trạng thái sang ${statusLabels[toStatus] || toStatus}`)
     } catch (error) {
+      toast.dismiss();
       toast.error(error || 'Lỗi khi cập nhật trạng thái đơn hàng!');
     }
   };
@@ -100,6 +103,7 @@ const OrderList = () => {
   const handleFailedDelivery = async () => {
     const { orderId, fromStatus, cause } = failedDeliveryData;
     if (!cause.trim()) {
+      toast.dismiss();
       toast.error('Vui lòng nhập lý do giao thất bại!');
       return;
     }
@@ -109,6 +113,7 @@ const OrderList = () => {
       ).unwrap();
       handleCloseFailedDeliveryModal();
     } catch (error) {
+      toast.dismiss();
       toast.error(error || 'Lỗi khi cập nhật trạng thái giao thất bại!');
     }
   };
@@ -122,6 +127,7 @@ const OrderList = () => {
       try {
         await dispatch(fetchOrderDetails(orderId)).unwrap();
       } catch (error) {
+        toast.dismiss();
         toast.error(error || 'Lỗi khi lấy chi tiết đơn hàng!');
       }
     }
