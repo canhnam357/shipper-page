@@ -80,6 +80,13 @@ const OrderList = () => {
     }
   };
 
+  const truncateAddress = (address) => {
+    if (address.length > 30) {
+      return address.substring(0, 30) + '...';
+    }
+    return address;
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchOrders({ index: currentPage, size: 10, orderStatus: orderStatusFilter }));
@@ -152,13 +159,6 @@ const OrderList = () => {
         toast.error(error || 'Lỗi khi lấy chi tiết đơn hàng!');
       }
     }
-  };
-
-  const truncateAddress = (address) => {
-    if (address.length > 30) {
-      return address.substring(0, 30) + '...';
-    }
-    return address;
   };
 
   if (!isAuthenticated) {
@@ -272,7 +272,8 @@ const OrderList = () => {
                           ) : orderDetails.length > 0 ? (
                             <>
                               <div className="order-details-info">
-                                <p><strong>Địa chỉ:</strong> {order.address}</p>
+                                <p><strong>Họ và tên :</strong> {order.fullName}</p>
+                                <p className="wrapped-text"><strong>Địa chỉ:</strong> {order.address}</p>
                                 <p><strong>Số điện thoại:</strong> {order.phoneNumber}</p>
                               </div>
                               <table className="order-details-table">
