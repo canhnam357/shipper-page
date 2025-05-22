@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/api';
+import { logoutUser } from '../auth/authSlice';
 
 export const fetchOrders = createAsyncThunk(
   'orders/fetchOrders',
-  async ({ index = 1, size = 10, orderStatus = '' }, { rejectWithValue }) => {
+  async ({ index = 1, size = 10, orderStatus = '' }, { rejectWithValue, dispatch }) => {
     try {
       const response = await api.get('/shipper/orders', {
         params: { index, size, orderStatus },
@@ -11,6 +12,12 @@ export const fetchOrders = createAsyncThunk(
       return response.data.result || { content: [], totalElements: 0, totalPages: 0, number: 0 };
     } catch (error) {
       const message = error.response?.data?.message || 'Không thể lấy danh sách đơn hàng!';
+      if (error.response?.status === 403) {
+        dispatch(logoutUser());
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        return rejectWithValue('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
+      }
       return rejectWithValue(message);
     }
   }
