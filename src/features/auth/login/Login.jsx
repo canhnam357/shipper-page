@@ -15,12 +15,12 @@ const Login = () => {
     e.preventDefault();
     await dispatch(loginUser({ email, password }));
     if (isAuthenticated) {
-      navigate('/shipper/orders');
+      navigate('/');
     }
   };
 
   if (isAuthenticated) {
-    navigate('/shipper/orders');
+    navigate('/');
     return null;
   }
 

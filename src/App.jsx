@@ -13,8 +13,8 @@ function App() {
         <Header />
         <div className="main-content">
           <Routes>
-            <Route path="/shipper/orders" element={<OrderList />} />
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<OrderList />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
         <ToastContainer

@@ -162,7 +162,7 @@ const OrderList = () => {
   };
 
   if (!isAuthenticated) {
-    navigate('/employee/login');
+    navigate('/login');
     return null;
   }
 
