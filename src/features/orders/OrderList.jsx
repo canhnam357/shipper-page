@@ -161,10 +161,11 @@ const OrderList = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    navigate('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
 
   if (loading) return <p>Đang tải danh sách đơn hàng...</p>;
 
