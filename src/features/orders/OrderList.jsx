@@ -63,7 +63,7 @@ const OrderList = () => {
     if (!dateString) return 'N/A';
     const dateRegex = /^(\d{2}):(\d{2}):(\d{2}) (\d{2})-(\d{2})-(\d{4})$/;
     if (dateRegex.test(dateString)) {
-      return dateString; // Giữ nguyên nếu đúng định dạng
+      return dateString;
     }
     try {
       const date = new Date(dateString);
@@ -121,7 +121,7 @@ const OrderList = () => {
     try {
       await dispatch(updateOrderStatus({ orderId, fromStatus, toStatus })).unwrap();
       toast.dismiss();
-      toast.success(`Chuyển trạng thái sang ${statusLabels[toStatus] || toStatus}`)
+      toast.success(`Chuyển trạng thái sang ${statusLabels[toStatus] || toStatus}`);
     } catch (error) {
       toast.dismiss();
       toast.error(error || 'Lỗi khi cập nhật trạng thái đơn hàng!');
@@ -140,6 +140,7 @@ const OrderList = () => {
         updateOrderStatus({ orderId, fromStatus, toStatus: 'FAILED_DELIVERY', cause })
       ).unwrap();
       handleCloseFailedDeliveryModal();
+      toast.success('Cập nhật trạng thái giao thất bại thành công!');
     } catch (error) {
       toast.dismiss();
       toast.error(error || 'Lỗi khi cập nhật trạng thái giao thất bại!');
@@ -273,7 +274,7 @@ const OrderList = () => {
                           ) : orderDetails.length > 0 ? (
                             <>
                               <div className="order-details-info">
-                                <p><strong>Họ và tên :</strong> {order.fullName}</p>
+                                <p><strong>Họ và tên:</strong> {order.fullName}</p>
                                 <p className="wrapped-text"><strong>Địa chỉ:</strong> {order.address}</p>
                                 <p><strong>Số điện thoại:</strong> {order.phoneNumber}</p>
                               </div>
@@ -345,15 +346,28 @@ const OrderList = () => {
         <div className="order-modal">
           <div className="order-modal-content">
             <h3>Lý do giao thất bại</h3>
-            <textarea
-              className="order-failed-delivery-reason"
-              value={failedDeliveryData.cause}
-              onChange={(e) =>
-                setFailedDeliveryData({ ...failedDeliveryData, cause: e.target.value })
-              }
-              placeholder="Nhập lý do giao thất bại..."
-              rows="4"
-            />
+            <div className="order-failed-delivery-reason-container">
+              <textarea
+                className="order-failed-delivery-reason"
+                value={failedDeliveryData.cause}
+                onChange={(e) =>
+                  setFailedDeliveryData({
+                    ...failedDeliveryData,
+                    cause: e.target.value.slice(0, 500),
+                  })
+                }
+                placeholder="Nhập lý do giao thất bại (tối đa 500 ký tự)"
+                rows="11"
+                maxLength="500"
+              />
+              <span
+                className={`order-failed-delivery-char-count ${
+                  failedDeliveryData.cause.length === 500 ? 'char-count-max' : ''
+                }`}
+              >
+                {failedDeliveryData.cause.length}/500
+              </span>
+            </div>
             <div className="order-modal-actions">
               <button
                 className="order-modal-button order-modal-cancel"

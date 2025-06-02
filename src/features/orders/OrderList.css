@@ -348,14 +348,40 @@
   color: #333;
 }
 
+.order-failed-delivery-reason-container {
+  position: relative;
+  margin-bottom: 15px;
+  padding: 0 10px; /* Căn đều hai bên */
+}
+
 .order-failed-delivery-reason {
   width: 100%;
   padding: 10px;
   font-size: 14px;
-  border: 1px solid #ddd;
+  font-family: 'Poppins', sans-serif;
+  border: 1px solid #d1d5db;
   border-radius: 4px;
   resize: vertical;
-  margin-bottom: 15px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.order-failed-delivery-reason:focus {
+  border-color: #3b82f6;
+}
+
+.order-failed-delivery-char-count {
+  position: absolute;
+  bottom: 8px;
+  right: 18px; /* Căn chỉnh với padding của container */
+  font-size: 12px;
+  font-family: 'Poppins', sans-serif;
+  color: #4a5568;
+}
+
+.order-failed-delivery-char-count.char-count-max {
+  color: #ef4444;
 }
 
 .order-modal-actions {
@@ -393,10 +419,10 @@
 
 /* CSS để xử lý xuống hàng cho chuỗi địa chỉ dài trong chi tiết */
 .order-details-info .wrapped-text {
-  max-width: 1100px; /* Giới hạn chiều rộng phù hợp với khung chi tiết */
-  overflow-wrap: break-word; /* Tự động xuống hàng, kể cả chuỗi không có khoảng trắng */
-  max-height: 60px; /* Giới hạn 2-3 dòng với font-size 14px và line-height ~20px */
-  overflow: hidden; /* Ẩn nội dung vượt quá */
-  color: #4a5568; /* Đồng bộ với order-details-info p */
-  line-height: 20px; /* Đảm bảo khoảng cách dòng phù hợp */
+  max-width: 1100px;
+  overflow-wrap: break-word;
+  max-height: 60px;
+  overflow: hidden;
+  color: #4a5568;
+  line-height: 20px;
 }
