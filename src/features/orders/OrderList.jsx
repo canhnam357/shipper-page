@@ -120,8 +120,6 @@ const OrderList = () => {
     }
     try {
       await dispatch(updateOrderStatus({ orderId, fromStatus, toStatus })).unwrap();
-      toast.dismiss();
-      toast.success(`Chuyển trạng thái sang ${statusLabels[toStatus] || toStatus}`);
     } catch (error) {
       toast.dismiss();
       toast.error(error || 'Lỗi khi cập nhật trạng thái đơn hàng!');
@@ -140,7 +138,6 @@ const OrderList = () => {
         updateOrderStatus({ orderId, fromStatus, toStatus: 'FAILED_DELIVERY', cause })
       ).unwrap();
       handleCloseFailedDeliveryModal();
-      toast.success('Cập nhật trạng thái giao thất bại thành công!');
     } catch (error) {
       toast.dismiss();
       toast.error(error || 'Lỗi khi cập nhật trạng thái giao thất bại!');

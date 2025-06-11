@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/api';
+import { toast } from 'react-toastify';
 
 export const fetchOrders = createAsyncThunk(
   'orders/fetchOrders',
@@ -30,6 +31,14 @@ export const updateOrderStatus = createAsyncThunk(
         cause: cause || null,
       });
       if (response.status === 204) {
+        const statusLabels = {
+          READY_TO_SHIP: 'Chuẩn bị giao',
+          DELIVERING: 'Đang giao',
+          DELIVERED: 'Đã giao',
+          FAILED_DELIVERY: 'Giao thất bại',
+        };
+        toast.dismiss();
+        toast.success(`Đã cập nhật trạng thái đơn hàng thành ${statusLabels[toStatus] || toStatus}!`);
         const { currentPage, pageSize, orderStatusFilter } = getState().orders;
         await dispatch(fetchOrders({ index: currentPage, size: pageSize, orderStatus: orderStatusFilter }));
         return { orderId, toStatus };
